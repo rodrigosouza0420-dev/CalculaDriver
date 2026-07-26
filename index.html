@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>CalculaDriver</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div>
+        <h1>
+            Calcula<span>Driver</span>
+        </h1>
+
+        <p>
+            Seu assistente de corridas
+        </p>
+    </div>
+
+    <div class="status">
+        <span class="status-dot"></span>
+        Sistema ativo
+    </div>
+
+</header>
+
+
+<main>
+
+    <!-- ==========================
+         NAVEGAÇÃO
+    =========================== -->
+
+    <nav class="menu">
+
+        <button
+            class="menu-btn active"
+            onclick="mostrarTela('inicio')"
+        >
+            🏠 Início
+        </button>
+
+        <button
+            class="menu-btn"
+            onclick="mostrarTela('analisar')"
+        >
+            🚗 Analisar
+        </button>
+
+        <button
+            class="menu-btn"
+            onclick="mostrarTela('corridas')"
+        >
+            📋 Corridas
+        </button>
+
+        <button
+            class="menu-btn"
+            onclick="mostrarTela('configuracao')"
+        >
+            ⚙️ Configuração
+        </button>
+
+    </nav>
+
+
+    <!-- ==========================
+         INÍCIO
+    =========================== -->
+
+    <section
+        id="tela-inicio"
+        class="tela"
+    >
+
+        <div class="page-title">
+
+            <small>RESUMO DO DIA</small>
+
+            <h2>
+                Olá, motorista 👋
+            </h2>
+
+            <p id="dataAtual">
+                —
+            </p>
+
+        </div>
+
+
+        <div class="dashboard">
+
+            <div class="card">
+
+                <small>Faturamento</small>
+
+                <strong id="faturamento">
+                    R$ 0,00
+                </strong>
+
+            </div>
+
+
+            <div class="card">
+
+                <small>Corridas</small>
+
+                <strong id="corridas">
+                    0
+                </strong>
+
+            </div>
+
+
+            <div class="card">
+
+                <small>KM rodados</small>
+
+                <strong id="kmTotal">
+                    0 km
+                </strong>
+
+            </div>
+
+
+            <div class="card">
+
+                <small>Lucro líquido</small>
+
+                <strong id="lucroTotal">
+                    R$ 0,00
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="panel-title">
+
+                <div>
+
+                    <h2>
+                        🎯 Meta de hoje
+                    </h2>
+
+                    <p>
+                        Seu progresso até agora
+                    </p>
+
+                </div>
+
+                <strong id="metaValor">
+                    R$ 250,00
+                </strong>
+
+            </div>
+
+
+            <div class="progress">
+
+                <div
+                    id="progressBar"
+                    class="progress-bar"
+                ></div>
+
+            </div>
+
+
+            <p
+                id="progressText"
+                class="progress-text"
+            >
+                R$ 0,00 de R$ 250,00
+            </p>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h2>
+                🚗 Analisar uma corrida
+            </h2>
+
+            <p class="description">
+                Veja rapidamente se uma oferta compensa.
+            </p>
+
+            <button
+                class="calculate-btn"
+                onclick="mostrarTela('analisar')"
+            >
+                ANALISAR CORRIDA
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================
+         ANALISAR CORRIDA
+    =========================== -->
+
+    <section
+        id="tela-analisar"
+        class="tela hidden"
+    >
+
+        <div class="page-title">
+
+            <small>NOVA OFERTA</small>
+
+            <h2>
+                🚗 Analisar corrida
+            </h2>
+
+            <p>
+                Informe os dados da corrida.
+            </p>
+
+        </div>
+
+
+        <div class="panel">
+
+            <div class="form-grid">
+
+                <div class="input-group">
+
+                    <label>
+                        Aplicativo
+                    </label>
+
+                    <select id="aplicativo">
+
+                        <option value="Uber">
+                            Uber
+                        </option>
+
+                        <option value="99">
+                            99
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Valor da corrida
+                    </label>
+
+                    <input
+                        id="valor"
+                        type="number"
+                        step="0.01"
+                        placeholder="18,50"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Distância (km)
+                    </label>
+
+                    <input
+                        id="distancia"
+                        type="number"
+                        step="0.1"
+                        placeholder="8,2"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Tempo (minutos)
+                    </label>
+
+                    <input
+                        id="tempo"
+                        type="number"
+                        placeholder="23"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="calculate-btn"
+                onclick="calcularCorrida()"
+            >
+                ANALISAR CORRIDA
+            </button>
+
+        </div>
+
+
+        <!-- RESULTADO -->
+
+        <div
+            id="resultado"
+            class="panel result-panel hidden"
+        >
+
+            <div class="result-header">
+
+                <div>
+
+                    <small>
+                        RESULTADO
+                    </small>
+
+                    <h2 id="avaliacao">
+                        —
+                    </h2>
+
+                </div>
+
+
+                <div class="score">
+
+                    <span id="nota">
+                        0
+                    </span>
+
+                    <small>
+                        /10
+                    </small>
+
+                </div>
+
+            </div>
+
+
+            <div class="result-grid">
+
+                <div class="result-box">
+
+                    <small>
+                        Por KM
+                    </small>
+
+                    <strong id="porKm">
+                        R$ 0,00
+                    </strong>
+
+                    <span id="metaKmResultado">
+                        Meta: R$ 0,00
+                    </span>
+
+                </div>
+
+
+                <div class="result-box">
+
+                    <small>
+                        Por hora
+                    </small>
+
+                    <strong id="porHora">
+                        R$ 0,00
+                    </strong>
+
+                    <span id="metaHoraResultado">
+                        Meta: R$ 0,00
+                    </span>
+
+                </div>
+
+
+                <div class="result-box">
+
+                    <small>
+                        Combustível
+                    </small>
+
+                    <strong id="combustivelResultado">
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+
+                <div class="result-box">
+
+                    <small>
+                        Manutenção
+                    </small>
+
+                    <strong id="manutencaoResultado">
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+
+                <div class="result-box">
+
+                    <small>
+                        Custo total
+                    </small>
+
+                    <strong id="custoTotal">
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+
+                <div class="result-box destaque">
+
+                    <small>
+                        Lucro estimado
+                    </small>
+
+                    <strong id="lucro">
+                        R$ 0,00
+                    </strong>
+
+                </div>
+
+            </div>
+
+
+            <div class="action-buttons">
+
+    <button
+        class="accept-btn"
+        onclick="aceitarCorrida()"
+    >
+        ✅ ACEITAR CORRIDA
+    </button>
+
+
+    <button
+        class="ignore-btn"
+        onclick="ignorarCorrida()"
+    >
+        ❌ IGNORAR
+    </button>
+
+</div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================
+         CORRIDAS
+    =========================== -->
+
+    <section
+        id="tela-corridas"
+        class="tela hidden"
+    >
+
+        <div class="page-title">
+
+            <small>HISTÓRICO</small>
+
+            <h2>
+                📋 Minhas corridas
+            </h2>
+
+            <p>
+                Corridas registradas no CalculaDriver.
+            </p>
+
+        </div>
+
+
+        <div
+            id="listaCorridas"
+            class="corridas-lista"
+        >
+
+        </div>
+
+    </section>
+
+
+    <!-- ==========================
+         CONFIGURAÇÃO
+    =========================== -->
+
+    <section
+        id="tela-configuracao"
+        class="tela hidden"
+    >
+
+        <div class="page-title">
+
+            <small>PERSONALIZAÇÃO</small>
+
+            <h2>
+                ⚙️ Configuração
+            </h2>
+
+            <p>
+                Configure suas metas e seu veículo.
+            </p>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h2>
+                🎯 Minhas metas
+            </h2>
+
+            <p class="description">
+                O aplicativo usará essas metas
+                para avaliar cada corrida.
+            </p>
+
+
+            <div class="form-grid">
+
+                <div class="input-group">
+
+                    <label>
+                        Quero ganhar por KM
+                    </label>
+
+                    <input
+                        id="metaKm"
+                        type="number"
+                        step="0.01"
+                        value="2.00"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Quero ganhar por hora
+                    </label>
+
+                    <input
+                        id="metaHora"
+                        type="number"
+                        step="0.01"
+                        value="40.00"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Meta diária
+                    </label>
+
+                    <input
+                        id="metaDiaria"
+                        type="number"
+                        step="0.01"
+                        value="250.00"
+                    >
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="panel">
+
+            <h2>
+                🚗 Meu veículo
+            </h2>
+
+            <p class="description">
+                Esses dados serão usados para
+                estimar seus custos.
+            </p>
+
+
+            <div class="form-grid">
+
+                <div class="input-group">
+
+                    <label>
+                        Combustível
+                    </label>
+
+                    <select id="combustivel">
+
+                        <option value="Gasolina">
+                            Gasolina
+                        </option>
+
+                        <option value="Etanol">
+                            Etanol
+                        </option>
+
+                        <option value="GNV">
+                            GNV
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Preço por litro
+                    </label>
+
+                    <input
+                        id="precoLitro"
+                        type="number"
+                        step="0.01"
+                        value="6.20"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Consumo (km/L)
+                    </label>
+
+                    <input
+                        id="consumo"
+                        type="number"
+                        step="0.1"
+                        value="10"
+                    >
+
+                </div>
+
+
+                <div class="input-group">
+
+                    <label>
+                        Manutenção por KM
+                    </label>
+
+                    <input
+                        id="manutencaoKm"
+                        type="number"
+                        step="0.01"
+                        value="0.30"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <button
+                class="calculate-btn"
+                onclick="salvarConfiguracaoMotorista()"
+            >
+                SALVAR CONFIGURAÇÃO
+            </button>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- JAVASCRIPT -->
+
+<script src="js/armazenamento.js"></script>
+
+<script src="js/configuracao.js"></script>
+
+<script src="js/calculadora.js"></script>
+
+<script src="js/corridas.js"></script>
+
+<script src="js/app.js"></script>
+
+</body>
+
+</html>
